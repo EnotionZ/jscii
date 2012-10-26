@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Jscii</title>
+	<script src="lib/colorutils.js"></script>
+	<script src="lib/color.js"></script>
+	<script src="lib/jscii.js"></script>
+	<style type="text/css">
+		.section { float: left; clear: both; }
+		.section > pre {
+			font: bold 8px/5px monospace;
+		}
+		.section > * { float: left; }
+	</style>
+</head>
+<body>
+	<div class="section">
+		<img id="dph" src="/test/dpham.jpg">
+		<pre id="ascii"></pre>
+	</div>
+	<div class="section">
+		<img id="justin" src="/test/justin.jpg">
+		<pre id="justin-a"></pre>
+	</div>
+	<script>
+		new Jscii('dph', function() { document.getElementById('ascii').innerHTML = this.toString(); });
+		new Jscii('justin', function() { document.getElementById('justin-a').innerHTML = this.toString(); });
+	</script>
+</body>
+</html>
+
