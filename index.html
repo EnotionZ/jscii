@@ -11,20 +11,17 @@
 			font: bold 8px/5px monospace;
 		}
 		.section > * { float: left; }
+		video { width: 100px; }
+		#dph { display: none; }
 	</style>
 </head>
 <body>
 	<div class="section">
-		<img id="dph" src="test/dpham.jpg">
 		<pre id="ascii"></pre>
-	</div>
-	<div class="section">
-		<img id="justin" src="test/justin.jpg">
-		<pre id="justin-a"></pre>
+		<video autoplay></video>
 	</div>
 	<script>
-		new Jscii('dph', function() { document.getElementById('ascii').innerHTML = this.toString(); });
-		new Jscii('justin', function() { document.getElementById('justin-a').innerHTML = this.toString(); });
+		new Jscii(document.getElementById('ascii'));
 	</script>
 </body>
 </html>
