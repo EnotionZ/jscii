@@ -55,11 +55,28 @@ class Jscii
     for i in [0..len]
       do (i)->
         if (i%width is 0) then str += '<br>'
-        hex = normalizeRgba(d[i=i*4], d[i+1], d[i+2]).toHex()
-        hsva = color.hsva(hex).toArray()
-        val = hsva[2]
+        hsv = rgbToHsv [d[i=i*4], d[i+1], d[i+2]]
+        val = hsv[2]
         str += getChar(val)
     str
+
+rgbToHsv = (rgb)->
+  r = rgb[0]/255
+  g = rgb[1]/255
+  b = rgb[2]/255
+  v = max = Math.max(r, g, b)
+  min = Math.min(r, g, b)
+  d = max - min
+  s = if max is 0 then 0 else d/max
+
+  if(max is min)
+    h = 0
+  else
+    if(max is r) then h = (g - b) / d + (g < b ? 6 : 0)
+    else if(max is g) then h = (b - r) / d + 2
+    else if(max is b) then h = (r - g) / d + 4
+    h *= 60;
+  [h, s, v]
 
 getChar = (val)->
   d = 1/13
@@ -76,9 +93,5 @@ getChar = (val)->
   else if d*10 <= val < d*11 then ','
   else if d*11 <= val < d*12 then '.'
   else '&nbsp;'
-
-normalizeRgba = (rgb)->
-  if arguments.length > 1 then rgb = [arguments[0], arguments[1], arguments[2]]
-  color.rgba {r: rgb[0]/255, g: rgb[1]/255, b: rgb[2]/255}
 
 window.Jscii = Jscii
