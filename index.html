@@ -6,22 +6,37 @@
 	<script src="lib/color.js"></script>
 	<script src="lib/jscii.js"></script>
 	<style type="text/css">
-		.section { float: left; clear: both; }
-		.section > pre {
-			font: bold 8px/5px monospace;
-		}
 		.section > * { float: left; }
+		.section > pre { font: bold 8px/5px monospace; }
 		video { width: 100px; }
-		#dph { display: none; }
+		.clearfix:after {
+			content: ".";
+			display: block;
+			clear: both;
+			visibility: hidden;
+			line-height: 0;
+			height: 0;
+		}
+		.clearfix { display: inline-block; }
 	</style>
 </head>
 <body>
-	<div class="section">
-		<pre id="ascii"></pre>
-		<video autoplay></video>
+	<div class="container">
+		<h2>Video to ASCII string</h2>
+		<div class="section clearfix">
+			<pre id="ascii"></pre>
+			<video autoplay></video>
+		</div>
+
+		<h2>Image to ASCII string</h2>
+		<div class="section clearfix">
+			<pre id="imgascii"></pre>
+			<img id="dpham" src="test/dpham.jpg">
+		</div>
 	</div>
 	<script>
-		new Jscii(document.getElementById('ascii'));
+		var jscii = new Jscii(document.getElementById('ascii'));
+		jscii.renderImage('dpham', 'imgascii');
 	</script>
 </body>
 </html>

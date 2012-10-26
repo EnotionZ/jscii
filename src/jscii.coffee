@@ -4,16 +4,18 @@ navigator.getMedia = ( navigator.getUserMedia ||
                        navigator.msGetUserMedia);
 
 class Jscii
-  constructor: (container, ready)->
-    @container = container
-    @ready = ready
-    @video = document.querySelector('video');
+  constructor: (videoContainer)->
     self = @;
+    @videoContainer = videoContainer
+    @video = document.querySelector('video');
 
-    @canvas = document.createElement 'canvas'
-    @ctx = @canvas.getContext '2d'
-    @canvas.width = @width = w = 100
-    @canvas.height = @height = h = 300/4
+    @imgCanvas = document.createElement 'canvas'
+    @imgCtx = @imgCanvas.getContext '2d'
+
+    @videoCanvas = document.createElement 'canvas'
+    @videoCtx = @videoCanvas.getContext '2d'
+    @videoCanvas.width = @width = w = 100
+    @videoCanvas.height = @height = h = 300/4
 
     navigator.getMedia({video: true, audio: true}, (localMediaStream)->
       url = window.URL || window.webkitURL
@@ -21,42 +23,38 @@ class Jscii
 
       self.stream = localMediaStream
       setInterval(()->
-        self.startAscii()
+        self.renderVideo()
       , 10)
 
-      self.video.onloadedmetadata = (e)->
-        console.log(e)
-    , (err)->
-      console.log("The following error occured: " + err))
+      self.video.onloadedmetadata = (e)-> console.log(e)
+    , (err)-> console.log("The following error occured: " + err))
 
-  startAscii: ()->
+  renderVideo: ()->
     if(@stream)
-      @ctx.drawImage @video, 0, 0, @width, @height
-      @data = @ctx.getImageData(0, 0, @width, @height).data
-      @container.innerHTML = @toString()
+      @videoCtx.drawImage @video, 0, 0, @width, @height
+      @data = @videoCtx.getImageData(0, 0, @width, @height).data
+      @videoContainer.innerHTML = @toString(@data, @width, @height)
 
-
-  load: (img)->
+  # pass in image object and container to render image's ascii in container
+  renderImage: (img, container)->
+    if(typeof container is 'string') then container = document.getElementById(container)
     if(typeof img is 'string')
       if (imgObj = document.getElementById(img)) and imgObj.tagName is 'IMG' then img = imgObj
-    (@img = img).addEventListener 'load', ()=> @_imageLoaded()
+    (@img = img).addEventListener 'load', ()=> @_imageLoaded(container)
 
-  _imageLoaded: ()->
-    @canvas.width = @width = w = 100
-    @canvas.height = @height = h = 100*@img.height/@img.width
-    @ctx.drawImage @img, 0, 0, w, h
-    @data = @ctx.getImageData(0, 0, w, h).data
-    @container.innerHTML = @toString()
+  _imageLoaded: (container)->
+    @imgCanvas.width = w = 100
+    @imgCanvas.height = h = 100*@img.height/@img.width
+    @imgCtx.drawImage @img, 0, 0, w, h
+    data = @imgCtx.getImageData(0, 0, w, h).data
+    container.innerHTML = @toString(data, w, h)
 
-  toString: ()->
-    d = @data
-    width = @width
-    len = width*@height-1
+  toString: (d, width, height)->
+    len = width*height-1
     str = ''
     for i in [0..len]
       do (i)->
-        if (i%width is 0)
-          str += '<br>'
+        if (i%width is 0) then str += '<br>'
         hex = normalizeRgba(d[i=i*4], d[i+1], d[i+2]).toHex()
         hsva = color.hsva(hex).toArray()
         val = hsva[2]
