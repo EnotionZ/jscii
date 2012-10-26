@@ -1,7 +1,40 @@
+navigator.getMedia = ( navigator.getUserMedia ||
+                       navigator.webkitGetUserMedia ||
+                       navigator.mozGetUserMedia ||
+                       navigator.msGetUserMedia);
+
 class Jscii
-  constructor: (img, ready)->
+  constructor: (container, ready)->
+    @container = container
     @ready = ready
-    @load(img)
+    @video = document.querySelector('video');
+    self = @;
+
+    @canvas = document.createElement 'canvas'
+    @ctx = @canvas.getContext '2d'
+    @canvas.width = @width = w = 100
+    @canvas.height = @height = h = 300/4
+
+    navigator.getMedia({video: true, audio: true}, (localMediaStream)->
+      url = window.URL || window.webkitURL
+      self.video.src = url.createObjectURL(localMediaStream);
+
+      self.stream = localMediaStream
+      setInterval(()->
+        self.startAscii()
+      , 10)
+
+      self.video.onloadedmetadata = (e)->
+        console.log(e)
+    , (err)->
+      console.log("The following error occured: " + err))
+
+  startAscii: ()->
+    if(@stream)
+      @ctx.drawImage @video, 0, 0, @width, @height
+      @data = @ctx.getImageData(0, 0, @width, @height).data
+      @container.innerHTML = @toString()
+
 
   load: (img)->
     if(typeof img is 'string')
@@ -9,17 +42,11 @@ class Jscii
     (@img = img).addEventListener 'load', ()=> @_imageLoaded()
 
   _imageLoaded: ()->
-    @canvas = document.createElement 'canvas'
-
-    #@canvas.width = @width = w = @img.width
-    #@canvas.height = @height = h = @img.height
     @canvas.width = @width = w = 100
     @canvas.height = @height = h = 100*@img.height/@img.width
-
-    @ctx = @canvas.getContext '2d'
     @ctx.drawImage @img, 0, 0, w, h
     @data = @ctx.getImageData(0, 0, w, h).data
-    @ready.call @
+    @container.innerHTML = @toString()
 
   toString: ()->
     d = @data
@@ -37,7 +64,6 @@ class Jscii
     str
 
 getChar = (val)->
-  console.log(val)
   d = 1/13
   if 0 <= val < d then '@'
   else if d <= val < d*2 then '$'
