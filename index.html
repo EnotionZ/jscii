@@ -4,9 +4,13 @@
 	<title>Jscii</title>
 	<script src="lib/jscii.js"></script>
 	<style type="text/css">
+		html, body {
+			font: normal 12px/18px 'helvetica neue' arial;
+			color: #333;
+		}
 		.section > * { float: left; }
-		.section > pre { font: bold 8px/5px monospace; }
-		video { width: 100px; }
+		.section > pre { font: bold 8px/5px monospace; color: #000; }
+		video { width: 200px; }
 		.clearfix:after {
 			content: ".";
 			display: block;
@@ -20,16 +24,16 @@
 </head>
 <body>
 	<div class="container">
-		<h2>Video to ASCII string</h2>
-		<div class="section clearfix">
-			<pre id="ascii"></pre>
-			<video autoplay></video>
-		</div>
-
 		<h2>Image to ASCII string</h2>
 		<div class="section clearfix">
 			<pre id="imgascii"></pre>
 			<img id="dpham" src="test/dpham.jpg">
+		</div>
+
+		<h2>Video to ASCII string <small>(must enable video)</small></h2>
+		<div class="section clearfix">
+			<pre id="ascii"></pre>
+			<video autoplay></video>
 		</div>
 	</div>
 	<script>

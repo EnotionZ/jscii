@@ -3,6 +3,7 @@ navigator.getMedia = ( navigator.getUserMedia ||
                        navigator.mozGetUserMedia ||
                        navigator.msGetUserMedia);
 
+
 class Jscii
   constructor: (videoContainer)->
     self = @;
@@ -14,20 +15,23 @@ class Jscii
 
     @videoCanvas = document.createElement 'canvas'
     @videoCtx = @videoCanvas.getContext '2d'
-    @videoCanvas.width = @width = w = 100
-    @videoCanvas.height = @height = h = 300/4
+    @videoCanvas.width = @width = w = 150
+    @videoCanvas.height = @height = h = w*3/4
 
     navigator.getMedia({video: true, audio: true}, (localMediaStream)->
       url = window.URL || window.webkitURL
       self.video.src = url.createObjectURL(localMediaStream);
 
       self.stream = localMediaStream
-      setInterval(()->
+      @videoTimer = setInterval(()->
         self.renderVideo()
-      , 10)
+      , 20)
 
       self.video.onloadedmetadata = (e)-> console.log(e)
     , (err)-> console.log("The following error occured: " + err))
+
+  stopRender: ()->
+    clearInterval @videoTimer
 
   renderVideo: ()->
     if(@stream)
@@ -55,8 +59,10 @@ class Jscii
     for i in [0..len]
       do (i)->
         if (i%width is 0) then str += '<br>'
-        hsv = rgbToHsv [d[i=i*4], d[i+1], d[i+2]]
+        rgb = [d[i=i*4], d[i+1], d[i+2]]
+        hsv = rgbToHsv rgb
         val = hsv[2]
+        #str += '<b style="color: rgb('+rgb.join(',')+')">'+getChar(val)+'</b>'
         str += getChar(val)
     str
 
@@ -79,19 +85,9 @@ rgbToHsv = (rgb)->
   [h, s, v]
 
 getChar = (val)->
-  d = 1/13
-  if 0 <= val < d then '@'
-  else if d <= val < d*2 then '$'
-  else if d*2 <= val < d*3 then '#'
-  else if d*3 <= val < d*4 then '*'
-  else if d*4 <= val < d*5 then '!'
-  else if d*5 <= val < d*6 then '='
-  else if d*6 <= val < d*7 then ';'
-  else if d*7 <= val < d*8 then ':'
-  else if d*8 <= val < d*9 then '~'
-  else if d*9 <= val < d*10 then '-'
-  else if d*10 <= val < d*11 then ','
-  else if d*11 <= val < d*12 then '.'
-  else '&nbsp;'
+  return chars[parseInt val*charLen, 10]
+
+chars = ['@','#','$','%','*','!','=',';',':','~','-',',','.','&nbsp;', '&nbsp;']
+charLen = 14
 
 window.Jscii = Jscii
