@@ -16,7 +16,7 @@ class Jscii
     @videoCanvas = document.createElement 'canvas'
     @videoCtx = @videoCanvas.getContext '2d'
     @videoCanvas.width = @width = w = 150
-    @videoCanvas.height = @height = h = w*3/4
+    @videoCanvas.height = @height = h = parseInt(w*3/4,10)
 
     navigator.getMedia({video: true, audio: true}, (localMediaStream)->
       url = window.URL || window.webkitURL
@@ -87,7 +87,7 @@ rgbToHsv = (rgb)->
 getChar = (val)->
   return chars[parseInt val*charLen, 10]
 
-chars = ['@','#','$','%','*','!','=',';',':','~','-',',','.','&nbsp;', '&nbsp;']
-charLen = 14
+chars = ['@','#','$','=','*','!',';',':','~','-',',','.','&nbsp;', '&nbsp;']
+charLen = 13
 
 window.Jscii = Jscii
