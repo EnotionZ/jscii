@@ -47,8 +47,8 @@ class Jscii
     (@img = img).addEventListener 'load', ()=> @_imageLoaded(container)
 
   _imageLoaded: (container)->
-    @imgCanvas.width = w = 100
-    @imgCanvas.height = h = 100*@img.height/@img.width
+    @imgCanvas.width = w = 150
+    @imgCanvas.height = h = w*@img.height/@img.width
     @imgCtx.drawImage @img, 0, 0, w, h
     data = @imgCtx.getImageData(0, 0, w, h).data
     container.innerHTML = @toString(data, w, h)
@@ -88,6 +88,6 @@ getChar = (val)->
   return chars[parseInt val*charLen, 10]
 
 chars = ['@','#','$','=','*','!',';',':','~','-',',','.','&nbsp;', '&nbsp;']
-charLen = 13
+charLen = chars.length-1
 
 window.Jscii = Jscii
