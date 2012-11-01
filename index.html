@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
 	<title>Jscii</title>
 	<script src="src/jscii.js"></script>
 	<style type="text/css">
@@ -40,6 +41,7 @@
 	<script>
 		Jscii.renderVideo(document.getElementById('video'), document.getElementById('ascii'));
 		Jscii.renderImage(document.getElementById('dpham'), document.getElementById('imgascii'));
+		Jscii.startRender(5);
 
 		var button = document.getElementById('toggleVideo');
 		button.addEventListener('click', function() {
@@ -47,7 +49,7 @@
 				Jscii.stopRender();
 				button.innerHTML = 'Start ASCII Rendering';
 			} else {
-				Jscii.startRender();
+				Jscii.startRender(5);
 				button.innerHTML = 'Stop ASCII Rendering';
 			}
 		});

@@ -24,7 +24,7 @@
 	/**
 	 * log when getUserMedia or when video metadata loading fail
 	 */
-	function logError(err) { if(console && console.log) console.log('Error!', e); }
+	function logError(err) { if(console && console.log) console.log('Error!', err); return false; }
 
 	/**
 	 * Sets the video dimension (and subsequently ASCII string dimension)
@@ -38,6 +38,12 @@
 	 * given a video object and DOM element, render the ASCII string inside element
 	 */
 	function renderVideo(videoEl, containerEl) {
+		if(typeof navigator.getMedia !== 'function') {
+			var msg = 'Error: browser does not support getUserMedia';
+			containerEl.innerHTML = msg;
+			return logError(msg);
+		}
+
 		video = videoEl;
 		container = containerEl;
 		navigator.getMedia({video: true, audio: true}, function(localMediaStream){
@@ -48,6 +54,7 @@
 			startRender(15);
 			video.onloadedmetadata = logError;
 		}, logError);
+		return true;
 	}
 
 	/**
