@@ -106,28 +106,6 @@
 	}
 
 
-	/**
-	 * given an rgb array, return the hue-saturation-lightness
-	 */
-	function rgbToHsv(rgb) {
-		var r = rgb[0]/255, g = rgb[1]/255, b = rgb[2]/255;
-		var max = Math.max(r, g, b);
-		var min = Math.min(r, g, b);
-		var v = max, d = max - min;
-		var s = max === 0 ? 0 : d/max;
-
-		if(max === min) {
-			h = 0;
-		} else {
-			if(max === r) h = (g - b) / d + (g < b ? 6 : 0);
-			else if(max === g) h = (b - r) / d + 2;
-			else if(max === b) h = (r - g) / d + 4;
-			h *= 60;
-		}
-		return [h, s, v];
-	}
-
-
 	// default video dimension at 150 width and a 4:3 ratio
 	setVideoDimension(150, parseInt(150*3/4, 10));
 	window.Jscii = {
