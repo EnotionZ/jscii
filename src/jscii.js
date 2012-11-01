@@ -13,8 +13,9 @@
 	var videoWidth, videoHeight, video, container, stream, videoTimer;
 
 	/**
-	 * value to character mapping
-	 * the extra &nbsp; is to account for the value range inclusive of 100%
+	 * value to character mapping from dark to light
+	 * add more characters and they will be accounted for automatically
+	 * note: the extra &nbsp; is to account for the value range inclusive of 100%
 	 */
 	var chars = ['@','#','$','=','*','!',';',':','~','-',',','.','&nbsp;', '&nbsp;'];
 	var charLen = chars.length-1;
@@ -84,10 +85,10 @@
 	}
 
 	/**
-	 * pixel data is a 1-dimensional array of rgba sequence
-	 * just a helper method to retrieve this rgb value
+	 * helper function to retrieve rgb value from pixel data
+	 * (pixel data is a 1-dimensional array of rgba sequence)
 	 */
-	function getRGB(d, pixel) { return [d[pixel=pixel*4], d[pixel+1], d[pixel+2]]; }
+	function getRGB(d, i) { return [d[i=i*4], d[i+1], d[i+2]]; }
 
 	/**
 	 * given a picture/frame's pixel data and a defined width and height
@@ -105,9 +106,11 @@
 		return str;
 	}
 
-
-	// default video dimension at 150 width and a 4:3 ratio
+	/**
+	 * default video dimension at 150 width and a 4:3 ratio
+	 */
 	setVideoDimension(150, parseInt(150*3/4, 10));
+
 	window.Jscii = {
 		setVideoDimension: setVideoDimension,
 		renderVideo: renderVideo,
