@@ -2,14 +2,13 @@
 <html>
 <head>
 	<title>Jscii</title>
-	<script src="lib/jscii.js"></script>
+	<script src="src/jscii.js"></script>
 	<style type="text/css">
 		html, body {
 			font: normal 12px/18px 'helvetica neue' arial;
 			color: #333;
 		}
-		.section > * { float: left; }
-		.section > pre { font: bold 8px/5px monospace; color: #000; }
+		.section > pre { font: bold 8px/5px monospace; color: #000; clear: left; }
 		video { width: 200px; }
 		.clearfix:after {
 			content: ".";
@@ -27,19 +26,31 @@
 	<div class="container">
 		<h2>Image to ASCII string</h2>
 		<div class="section clearfix">
-			<pre id="imgascii"></pre>
 			<img width="150" id="dpham" src="test/dpham.jpg">
+			<pre id="imgascii"></pre>
 		</div>
 
 		<h2>Video to ASCII string <small>(must enable video)</small></h2>
 		<div class="section clearfix">
+			<video id="video" autoplay></video>
+			<button id="toggleVideo">Stop ASCII Rendering</button>
 			<pre id="ascii"></pre>
-			<video autoplay></video>
 		</div>
 	</div>
 	<script>
-		var jscii = new Jscii(document.getElementById('ascii'));
-		jscii.renderImage('dpham', 'imgascii');
+		Jscii.renderVideo(document.getElementById('video'), document.getElementById('ascii'));
+		Jscii.renderImage(document.getElementById('dpham'), document.getElementById('imgascii'));
+
+		var button = document.getElementById('toggleVideo');
+		button.addEventListener('click', function() {
+			if(button.innerHTML === 'Stop ASCII Rendering') {
+				Jscii.stopRender();
+				button.innerHTML = 'Start ASCII Rendering';
+			} else {
+				Jscii.startRender();
+				button.innerHTML = 'Stop ASCII Rendering';
+			}
+		});
 	</script>
 </body>
 </html>
