@@ -1,3 +1,9 @@
+/**
+ * Jscii - Image to ASCII converter
+ * http://enotionz.github.com/jscii/
+ * Author: Dominick Pham (@enotionz | http://dph.am)
+ */
+
 !function() {
 
 	navigator.getMedia = navigator.getUserMedia ||
@@ -62,6 +68,7 @@
 	 */
 	function startRender(interval) {
 		if(typeof interval !== 'number') interval = 20;
+		stopRender();
 		videoTimer = setInterval(function(){
 			if(stream) {
 				var w = videoWidth, h = videoHeight;
