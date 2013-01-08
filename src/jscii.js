@@ -129,7 +129,7 @@
 	 */
 	Jscii.prototype.getAsciiString = function() {
 		var dim = this.dimension(), width = dim.width, height = dim.height;
-		var len = width*height-1, d = this.imageData, str = '';
+		var len = width*height, d = this.imageData, str = '';
 
 		// helper function to retrieve rgb value from pixel data
 		var getRGB = function(i) { return [d[i=i*4], d[i+1], d[i+2]]; };
