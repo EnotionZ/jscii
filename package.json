@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "test/index.js"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,10 @@
   "bugs": {
     "url": "https://github.com/EnotionZ/jscii/issues"
   },
-  "homepage": "https://github.com/EnotionZ/jscii#readme"
+  "homepage": "https://github.com/EnotionZ/jscii#readme",
+  "devDependencies": {
+    "express": "^4.13.3",
+    "nightmare": "^2.0.7",
+    "tape": "^4.2.2"
+  }
 }
