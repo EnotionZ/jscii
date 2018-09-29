@@ -1,0 +1,27 @@
+{
+  "name": "jscii",
+  "version": "1.0.0",
+  "description": "JavaScript image to ASCII converter",
+  "main": "src/jscii.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "test/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EnotionZ/jscii.git"
+  },
+  "author": "Dominick Pham <dominick@dph.am>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/EnotionZ/jscii/issues"
+  },
+  "homepage": "https://github.com/EnotionZ/jscii#readme",
+  "devDependencies": {
+    "express": "^4.13.3",
+    "nightmare": "^2.0.7",
+    "tape": "^4.2.2"
+  }
+}
